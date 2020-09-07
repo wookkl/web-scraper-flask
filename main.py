@@ -13,6 +13,7 @@ def home():
 
 @app.route("/report")
 def report():
+
     word = request.args.get('word')
     if word:
         word = word.lower()
@@ -43,9 +44,12 @@ def export():
         if not jobs:
             raise Exception()
         save_to_file(jobs)
-        return send_file("jobs.csv")
+        return send_file('jobs.csv',
+                         mimetype='text/csv',
+                         attachment_filename='jobs.csv',
+                         as_attachment=True)
     except:
         return redirect("/")
 
 
-app.run(host="127.0.0.1")
+app.run(host="127.0.0.1", debug=True, port=3000)
